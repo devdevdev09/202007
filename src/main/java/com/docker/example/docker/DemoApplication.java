@@ -11,7 +11,7 @@ public class DemoApplication {
 
 	@RequestMapping("/")
 	public String dockerHello(){
-		return "index";
+		return "indextest";
 	}
 
 	public static void main(String[] args) {
