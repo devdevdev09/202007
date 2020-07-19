@@ -8,6 +8,10 @@
 ### 2020-07-09
 - jenkins 배포용 sample 프로젝트 생성
 
+### 2020-07-19
+- 프로젝트 이름 추가
+- 배너 추가(DAILY COMMIT-COUNTER)
+
 ---
 ### TODO
 - spring scheduler 실행하기
