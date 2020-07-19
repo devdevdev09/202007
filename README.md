@@ -11,10 +11,11 @@
 ### 2020-07-19
 - 프로젝트 이름 추가
 - 배너 추가(DAILY COMMIT-COUNTER)
+- 스프링 스케줄러 추가
 
 ---
 ### TODO
-- spring scheduler 실행하기
+- ~~spring scheduler 실행하기~~
 - restUtils, common-utils 추가하기
 - jenkins 앱 실행 스크립트 작성
 - 날짜 역순으로 연속일 체크
