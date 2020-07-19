@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class DemoApplication {
+public class DailyCommitApplication {
 
 	@RequestMapping("/")
-	public String dockerHello(){
-		return "indextestscript";
+	public String hello(){
+		return "repo : https://github.com/devdevdev09/202007";
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(DailyCommitApplication.class, args);
 	}
 
 }
