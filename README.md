@@ -3,7 +3,6 @@
 ## 일일 커밋 체크 프로그램
 
 ## TODO
-- ~~spring scheduler 실행하기~~
 - restUtils, common-utils 추가하기
 - jenkins 앱 실행 스크립트 작성
 - 날짜 역순으로 연속일 체크
