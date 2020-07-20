@@ -1,4 +1,4 @@
-package com.docker.example.docker;
+package com.heo.dailycommit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
