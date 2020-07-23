@@ -14,4 +14,9 @@ public class DailyScheduler {
     public void testScheduler(){
         log.info("스케줄러 테스트");
     }
+
+    // @Scheduled(cron = "0 */20 * * * *")
+    // public void noSleep(){
+    //     log.info("no sleep !!");
+    // }
 }
