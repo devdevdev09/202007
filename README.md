@@ -7,6 +7,10 @@
 - jenkins 앱 실행 스크립트 작성
 - 1년 이상 날짜는 연속일 체크 불가(현재로는) > 방법 알아보기
 
+### 2020-07-23
+- hooks url 실행시 넘기게 변경
+    - (VSCODE > launch.json) "vmArgs": "-Dslack.value.hooks=SLACK_HOOK_URL"
+
 ### 2020-07-20
 - README.md 역순으로 변경
 - log 설정 추가(application.properties)
