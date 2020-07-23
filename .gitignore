@@ -29,6 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### ignore test ###
-src/main/resources/application.properties
