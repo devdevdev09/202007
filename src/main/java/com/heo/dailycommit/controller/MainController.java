@@ -5,23 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.websocket.server.PathParam;
+import com.heo.dailycommit.service.SlackService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequestMapping(value = "/")
 public class MainController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private SlackService slackService;
     
     @RequestMapping(value = "/nosleep")
     public void main(){
@@ -29,13 +30,24 @@ public class MainController {
     }
 
     @GetMapping("/dailycommit/{id}")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map getMethodName(@PathVariable String id) {
+        Map<String,Object> result = slackService.getCommitInfo();
 
-        logger.info("test id :: " + id);
+        String date = (String) result.get("date");
+        String user = (String) result.get("user");
+        int continueCommit = (int) result.get("continue");
+        int daily = (int) result.get("daily");
+        
 
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("id", id);
+        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
+                    + continueCommit + "일째";
+        
+        result.put("user", user);
+        result.put("daily", (daily > 0)? true : false);
+        result.put("continue", continueCommit);
+        result.put("date", date);
+
+        slackService.post(msg);
 
         return result;
     }

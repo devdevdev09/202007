@@ -31,6 +31,11 @@ public class HtmlParse {
         public int getCountByDoc(Document doc, String date) {
             String count = doc.body().select("[data-date=\"" + date + "\"]").attr("data-count");
     
-            return Integer.parseInt(count);
+            if(count.isEmpty()){
+                return 0;
+            }else{
+                return Integer.parseInt(count);
+            }
+            
         }
 }
