@@ -5,11 +5,14 @@
 ## TODO
 - 외부 호출은 hook url 있으면 슬랙 전송, 없으면 응답만, 스케줄러에선 슬랙에 전송하기
 - REST API 설계, ERROR STATUS 반환하기
-- heroku 배포하기 or aws 배포하기
+- API 인증 추가하기
 - 실행 인원 리스트로 입력받기
 - 프로젝트 구조 변경하기
 - jenkins 앱 실행 스크립트 작성
 - 1년 이상 날짜는 연속일 체크 불가(현재로는) > 방법 알아보기
+
+### 2020-07-26
+- heroku 연결(https://daily-commit-counter.herokuapp.com)
 
 ### 2020-07-23
 - hooks url 실행시 넘기게 변경

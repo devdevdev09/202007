@@ -28,7 +28,7 @@ public class DailyCommit {
         this.slack = slack;
     }
 
-    @RequestMapping(value = "/countRecur")
+    // @RequestMapping(value = "/countRecur")
     // @RequestMapping(value = "/post/slack")
     public void SendToSlack(String targetUser){
         // String user = targetUser.isEmpty() ? "devdevdev09" : targetUser;
