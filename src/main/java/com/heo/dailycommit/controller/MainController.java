@@ -40,7 +40,7 @@ public class MainController {
 
     @GetMapping("/dailycommit/{id}")
     public Map getDailyCommit(@PathVariable String id) {
-        Map<String,Object> result = slackService.getCommitInfo();
+        Map<String,Object> result = slackService.getCommitInfo(id);
 
         String date = (String) result.get("date");
         String user = (String) result.get("user");
@@ -65,7 +65,7 @@ public class MainController {
     // 인증키 받아서 슬랙 보내기
     public Map postDailyCommit(@PathVariable String id
                             ,@RequestParam String auth) {
-        Map<String,Object> result = slackService.getCommitInfo();
+        Map<String,Object> result = slackService.getCommitInfo(id);
 
         String date = (String) result.get("date");
         String user = (String) result.get("user");

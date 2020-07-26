@@ -24,13 +24,11 @@ public class SlackService {
     @Autowired
     private HtmlParse htplparse;
     
-    public Map<String,Object> getCommitInfo(){
+    public Map<String,Object> getCommitInfo(String user){
         Map<String, Object> result = new HashMap<String, Object>();
 
-        String user = "devdevdev09";
         String url = "https://github.com/" + user;
         String today = Utils.getToday();
-        String msg = "";
 
         try {
             Document doc = Jsoup.connect(url).get();
