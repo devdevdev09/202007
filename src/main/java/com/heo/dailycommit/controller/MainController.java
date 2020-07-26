@@ -53,7 +53,7 @@ public class MainController {
         
         result.put("user", user);
         result.put("daily", (daily > 0)? true : false);
-        result.put("continue", continueCommit);
+        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
         result.put("date", date);
 
         return result;
