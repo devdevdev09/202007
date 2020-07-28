@@ -15,6 +15,11 @@ public class DailyScheduler {
         log.info("스케줄러 테스트");
     }
 
+    @Scheduled(cron = "0 */10 * * * *") // 초 분 시 일 월 요일
+    public void testSleep(){
+        log.info("no sleep scheduler test");
+    }
+
     // @Scheduled(cron = "0 */20 * * * *")
     // public void noSleep(){
     //     log.info("no sleep !!");

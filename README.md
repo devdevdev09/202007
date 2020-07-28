@@ -13,6 +13,7 @@
 
 ### 2020-07-28
 - heorku log 테스트
+- heroku no sleep test(spring scheduler)
 
 ### 2020-07-27
 - index.html 추가
