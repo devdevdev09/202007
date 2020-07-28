@@ -32,7 +32,7 @@ public class RestMainController {
     @GetMapping("/dailycommit/{id}")
     public Map getDailyCommit(@PathVariable String id) {
         logger.info("getDailyCommit::id::" + id);
-        
+
         Map<String,Object> result = slackService.getCommitInfo(id);
 
         String date = (String) result.get("date");
@@ -94,6 +94,31 @@ public class RestMainController {
         }
 
         result.put("userList", ids);
+
+        return result;
+    }
+
+    @GetMapping("/dailycommit/{id}/all")
+    public Map getAllDailyCommit(@PathVariable String id) {
+        logger.info("getDailyCommit::id::" + id);
+        
+        Map<String,Object> result = slackService.getAllCommitInfo(id);
+
+        String date = (String) result.get("date");
+        String user = (String) result.get("user");
+        int continueCommit = (int) result.get("continue");
+        int daily = (int) result.get("daily");
+        int all = (int) result.get("all");
+        
+
+        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
+                    + continueCommit + "일째";
+        
+        result.put("user", user);
+        result.put("daily", (daily > 0)? true : false);
+        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+        result.put("date", date);
+        result.put("all", all);
 
         return result;
     }
