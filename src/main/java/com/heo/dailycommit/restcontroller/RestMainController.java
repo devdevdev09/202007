@@ -31,6 +31,8 @@ public class RestMainController {
 
     @GetMapping("/dailycommit/{id}")
     public Map getDailyCommit(@PathVariable String id) {
+        logger.info("getDailyCommit::id::" + id);
+        
         Map<String,Object> result = slackService.getCommitInfo(id);
 
         String date = (String) result.get("date");
