@@ -58,17 +58,19 @@ public class RestMainController {
         int daily = (int) result.get("daily");
         int continueCommit = (int) result.get("continue");
         
-        result.put("daily", (daily > 0)? true : false);
         result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
 
         if(webhook == null || webhook.isEmpty()){
             result.put("msg", "slack webhook url is Empty!!");
+            result.put("daily", (daily > 0)? true : false);
             return result;
         }
     
         String msg = slackService.getSlackMsg(result);
     
         slackService.post(msg, webhook);
+
+        result.put("daily", (daily > 0)? true : false);
     
         return result;
     }
