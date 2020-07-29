@@ -49,4 +49,25 @@ public class Slack {
             e.printStackTrace();
         }
     }
+
+    public void send(String msg, String hooks) {
+        try {
+            Map<String, Object> req = new HashMap<String, Object>();
+            req.put("text"    , msg);
+            req.put("username", USER_NAME);
+            String url = hooks;
+
+            if(url == null || url == ""){
+                throw new SlackException(SlackErrors.HOOKS_NULL); 
+            }
+            restClientUtil.post(url, HttpMethod.POST, req);
+
+        } catch (IOException e) {
+            logger.debug(e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

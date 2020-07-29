@@ -11,6 +11,15 @@
 - jenkins 앱 실행 스크립트 작성
 - 1년 이상 날짜는 연속일 체크 불가(현재로는) > 방법 알아보기
 
+### 2020-07-29
+- POST로 슬랙 webhook 전달시 해당 슬랙으로 메시지 전송
+```
+POST "/dailycommit/GITHUB_ID"
+{ 
+    "webhook" : "SLACK_WEBHOOK_URL"
+}
+```
+
 ### 2020-07-28
 - heorku log 테스트
 - heroku no sleep test(spring scheduler)

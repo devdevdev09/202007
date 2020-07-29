@@ -54,4 +54,12 @@ public class HtmlParse {
                 return 0 + getAllCountRecursive(doc, Utils.getDate("yyyy-MM-dd", ++recurCount), recurCount);
             }
         }
+
+        public int getAllContributionCount(Document doc){
+            int count = doc.body().select("rect").size();
+            
+            return count;
+        }
+
+        
 }

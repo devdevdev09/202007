@@ -80,7 +80,18 @@ public class SlackService {
         return result;
     }
 
-    public void post(String msg){
-        slack.send(msg);
+    public String getSlackMsg(Map<String, Object> data){
+        String date = (String) data.get("date");
+        String user = (String) data.get("user");
+        int continueCommit = (int) data.get("continue");
+        int daily = (int) data.get("daily");
+
+        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
+                    + continueCommit + "일째";
+        return msg;
+    }
+
+    public void post(String msg, String hooks){
+        slack.send(msg, hooks);
     }
 }

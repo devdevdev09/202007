@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(value = "/")
@@ -35,47 +36,40 @@ public class RestMainController {
 
         Map<String,Object> result = slackService.getCommitInfo(id);
 
-        String date = (String) result.get("date");
-        String user = (String) result.get("user");
         int continueCommit = (int) result.get("continue");
         int daily = (int) result.get("daily");
         
-
-        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
-                    + continueCommit + "일째";
-        
-        result.put("user", user);
         result.put("daily", (daily > 0)? true : false);
         result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
-        result.put("date", date);
 
         return result;
     }
 
-    // @Value("${AUTH_KEY}")
-    // String authkey;
-
     // 인증키 받아서 슬랙 보내기
-    public Map postDailyCommit(@PathVariable String id
-                            ,@RequestParam String auth) {
+    @PostMapping("/dailycommit/{id}")
+    public Map postDailyCommit(@PathVariable String id, 
+                        @RequestBody Map<String, Object> requestBody) {
+        logger.info("webhook :: " + requestBody.get("webhook"));
+
+        String webhook = (String)requestBody.get("webhook");
+
         Map<String,Object> result = slackService.getCommitInfo(id);
 
-        String date = (String) result.get("date");
-        String user = (String) result.get("user");
-        int continueCommit = (int) result.get("continue");
         int daily = (int) result.get("daily");
+        int continueCommit = (int) result.get("continue");
         
-
-        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
-                    + continueCommit + "일째";
-        
-        result.put("user", user);
         result.put("daily", (daily > 0)? true : false);
-        result.put("continue", continueCommit);
-        result.put("date", date);
+        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
 
-        slackService.post(msg);
-
+        if(webhook == null || webhook.isEmpty()){
+            result.put("msg", "slack webhook url is Empty!!");
+            return result;
+        }
+    
+        String msg = slackService.getSlackMsg(result);
+    
+        slackService.post(msg, webhook);
+    
         return result;
     }
 
@@ -109,10 +103,6 @@ public class RestMainController {
         int continueCommit = (int) result.get("continue");
         int daily = (int) result.get("daily");
         int all = (int) result.get("all");
-        
-
-        String msg = "[" + date + "] :: [" + user + "] :: 오늘 커밋 " + ((daily > 0) ? "함" : "안함") + " :: 연속커밋 "
-                    + continueCommit + "일째";
         
         result.put("user", user);
         result.put("daily", (daily > 0)? true : false);
