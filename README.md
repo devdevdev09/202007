@@ -3,6 +3,7 @@
 ## 일일 커밋 체크 프로그램
 
 ## TODO
+- index.html 수정하기(설명 보충)
 - 외부 호출은 hook url 있으면 슬랙 전송, 없으면 응답만, 스케줄러에선 슬랙에 전송하기
 - REST API 설계, ERROR STATUS 반환하기
 - API 인증 추가하기
