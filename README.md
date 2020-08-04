@@ -15,7 +15,7 @@
 ### 2020-07-29
 - POST로 슬랙 webhook 전달시 해당 슬랙으로 메시지 전송
 ```
-POST "/dailycommit/GITHUB_ID"
+POST "/dailycommit/{GITHUB_ID}"
 { 
     "webhook" : "SLACK_WEBHOOK_URL"
 }
