@@ -19,9 +19,4 @@ public class DailyScheduler {
     public void testSleep(){
         log.info("no sleep scheduler test");
     }
-
-    // @Scheduled(cron = "0 */20 * * * *")
-    // public void noSleep(){
-    //     log.info("no sleep !!");
-    // }
 }

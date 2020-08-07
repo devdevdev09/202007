@@ -3,14 +3,9 @@
 ## 일일 커밋 체크 프로그램
 
 ## TODO
-- index.html 수정하기(설명 보충)
-- spring cache 사용하기
-- 외부 호출은 hook url 있으면 슬랙 전송, 없으면 응답만, 스케줄러에선 슬랙에 전송하기
+- index.html 수정하기(설명 보충) > rest api docs
 - REST API 설계, ERROR STATUS 반환하기
-- API 인증 추가하기
 - 실행 인원 리스트로 입력받기
-- 프로젝트 구조 변경하기
-- jenkins 앱 실행 스크립트 작성
 
 ### 2020-08-07
 - 이전 년도 커밋수 체크
@@ -24,6 +19,7 @@ response
     "user" : "GITHUB_ID"
 }
 ```
+- 전체 프로젝트 소스 정리
 
 ### 2020-07-29
 - POST로 슬랙 webhook 전달시 해당 슬랙으로 메시지 전송

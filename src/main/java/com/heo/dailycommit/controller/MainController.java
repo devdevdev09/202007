@@ -11,7 +11,6 @@ public class MainController {
 
     @RequestMapping(value = "/")
     public String main(){
-        String result = "Daily Commit Counter";
         return "index";
     }
 }

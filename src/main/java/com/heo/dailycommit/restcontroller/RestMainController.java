@@ -26,16 +26,10 @@ public class RestMainController {
     @Autowired
     private SlackService slackService;
 
-    @RequestMapping(value = "/nosleep")
-    public void nosleep(){
-        logger.info("nosleep controller :: ");
-    }
-
     @GetMapping("/dailycommit/{id}")
-    public Map getDailyCommit(@PathVariable String id
-                            , @RequestParam(required = false) String year) {
-        logger.info("getDailyCommit::id::" + id);
-
+    public Map<String, Object> getDailyCommit(@PathVariable String id
+                                            , @RequestParam(required = false) String year) {
+        
         Map<String,Object> result = new HashMap<String, Object>();
 
         if(year == null || year.isEmpty() || year.isBlank()){
@@ -49,32 +43,12 @@ public class RestMainController {
             result = slackService.getCommitInfo(id, year);
         }
 
-
-
         return result;
     }
 
-    // @GetMapping("/dailycommit/{id}")
-    // public Map getDailyCommit(@PathVariable String id
-    //                         ,@RequestParam String year) {
-
-    //     Map<String,Object> result = slackService.getCommitInfo(id, year);
-
-    //     int continueCommit = (int) result.get("continue");
-    //     int daily = (int) result.get("daily");
-        
-    //     result.put("daily", (daily > 0)? true : false);
-    //     result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
-
-    //     return result;
-    // }
-
-    // 인증키 받아서 슬랙 보내기
     @PostMapping("/dailycommit/{id}")
-    public Map postDailyCommit(@PathVariable String id, 
-                        @RequestBody Map<String, Object> requestBody) {
-        logger.info("webhook :: " + requestBody.get("webhook"));
-
+    public Map<String, Object> postDailyCommit(@PathVariable String id
+                                             , @RequestBody Map<String, Object> requestBody) {
         String webhook = (String)requestBody.get("webhook");
 
         Map<String,Object> result = slackService.getCommitInfo(id);
@@ -100,10 +74,7 @@ public class RestMainController {
     }
 
     @GetMapping("/dailycommit/[{ids}]")
-    public Map getMethodName(@PathVariable List<String> ids) {
-
-        logger.info("test id :: " + ids);
-
+    public Map<String, Object> getMethodName(@PathVariable List<String> ids) {
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("key1", "value1");
 
@@ -119,9 +90,7 @@ public class RestMainController {
     }
 
     @GetMapping("/dailycommit/{id}/all")
-    public Map getAllDailyCommit(@PathVariable String id) {
-        logger.info("getDailyCommit::id::" + id);
-        
+    public Map<String, Object> getAllDailyCommit(@PathVariable String id) {
         Map<String,Object> result = slackService.getAllCommitInfo(id);
 
         String date = (String) result.get("date");

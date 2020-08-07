@@ -26,11 +26,13 @@ public class SlackService {
 
     @Autowired
     private HtmlParse htmlparse;
+
+    public final String GITHUB_URL = "https://github.com";
     
     public Map<String,Object> getCommitInfo(String user){
         Map<String, Object> result = new HashMap<String, Object>();
 
-        String url = "https://github.com/" + user;
+        String url = GITHUB_URL + "/" + user;
         String today = Utils.getToday();
 
         try {
@@ -58,7 +60,7 @@ public class SlackService {
     public Map<String,Object> getCommitInfo(String user, String year){
         Map<String, Object> result = new HashMap<String, Object>();
 
-        String url = "https://github.com/" + user;
+        String url = GITHUB_URL + "/" + user;
         String today = Utils.getToday();
 
         try {
@@ -70,11 +72,8 @@ public class SlackService {
             for(Map<String, String> map : years){
                 if(map.get("year").equals(year)){
                     isYear = true;
-                    url = "https://github.com" + map.get("href");  
+                    url = GITHUB_URL + map.get("href");  
                 } 
-
-                // System.out.println("year : " + map.get("year"));
-                // System.out.println("href : " + map.get("href"));
             }
 
             if(isYear){
@@ -98,7 +97,6 @@ public class SlackService {
                 String yesterday = Utils.getDate(1);
                 int recur_count = 1;
                 int continueCommit = htmlparse.getCountRecursive(doc, yesterday, recur_count);
-    
                 
                 result.put("daily", todayCommit);
                 result.put("continue", continueCommit);
@@ -106,9 +104,6 @@ public class SlackService {
             }
 
             result.put("user", user);
-            
-
-
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
@@ -120,7 +115,7 @@ public class SlackService {
     public Map<String,Object> getAllCommitInfo(String user){
         Map<String, Object> result = new HashMap<String, Object>();
 
-        String url = "https://github.com/" + user;
+        String url = GITHUB_URL + "/" + user;
         String today = Utils.getToday();
 
         try {

@@ -2,7 +2,7 @@ package com.heo.dailycommit.error;
 
 public enum SlackErrors {
     NULLDATA("0001","DATA가 없습니다."),
-    HOOKS_NULL("0002","HOOKS URL을 확인하세요");
+    HOOKS_NULL("0002","WEBHOOK URL을 확인하세요");
 
     private String code;
     private String description;

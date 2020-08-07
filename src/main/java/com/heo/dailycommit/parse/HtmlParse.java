@@ -19,7 +19,6 @@ public class HtmlParse {
         private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         // jsoup document에서 날짜를 역순으로 가서 연속 커밋일수 확인
-        // 매일 아침에 계산
         public int getCountRecursive(Document doc, String date, int recurCount) {
             String str = doc.body().select("[data-date=\"" + date + "\"]").attr("data-count");
 
@@ -69,7 +68,7 @@ public class HtmlParse {
         }
 
         public List<Map<String, String>> getYearList(Document doc){
-            List result = new ArrayList<Map<String,String>>();
+            List<Map<String, String>> result = new ArrayList<Map<String,String>>();
             
             Elements elements = doc.body().select("ul.filter-list > li > a");
             
@@ -82,8 +81,5 @@ public class HtmlParse {
             }
 
             return result;
-
         }
-
-        
 }
