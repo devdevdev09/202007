@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(value = "/")
@@ -31,19 +32,42 @@ public class RestMainController {
     }
 
     @GetMapping("/dailycommit/{id}")
-    public Map getDailyCommit(@PathVariable String id) {
+    public Map getDailyCommit(@PathVariable String id
+                            , @RequestParam(required = false) String year) {
         logger.info("getDailyCommit::id::" + id);
 
-        Map<String,Object> result = slackService.getCommitInfo(id);
+        Map<String,Object> result = new HashMap<String, Object>();
 
-        int continueCommit = (int) result.get("continue");
-        int daily = (int) result.get("daily");
-        
-        result.put("daily", (daily > 0)? true : false);
-        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+        if(year == null || year.isEmpty() || year.isBlank()){
+            result = slackService.getCommitInfo(id);
+            int continueCommit = (int) result.get("continue");
+            int daily = (int) result.get("daily");
+            
+            result.put("daily", (daily > 0)? true : false);
+            result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+        }else{
+            result = slackService.getCommitInfo(id, year);
+        }
+
+
 
         return result;
     }
+
+    // @GetMapping("/dailycommit/{id}")
+    // public Map getDailyCommit(@PathVariable String id
+    //                         ,@RequestParam String year) {
+
+    //     Map<String,Object> result = slackService.getCommitInfo(id, year);
+
+    //     int continueCommit = (int) result.get("continue");
+    //     int daily = (int) result.get("daily");
+        
+    //     result.put("daily", (daily > 0)? true : false);
+    //     result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+
+    //     return result;
+    // }
 
     // 인증키 받아서 슬랙 보내기
     @PostMapping("/dailycommit/{id}")
@@ -114,5 +138,4 @@ public class RestMainController {
 
         return result;
     }
-    
 }

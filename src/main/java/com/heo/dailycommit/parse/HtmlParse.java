@@ -1,8 +1,15 @@
 package com.heo.dailycommit.parse;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.heo.dailycommit.utils.Utils;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -59,6 +66,23 @@ public class HtmlParse {
             int count = doc.body().select("rect").size();
             
             return count;
+        }
+
+        public List<Map<String, String>> getYearList(Document doc){
+            List result = new ArrayList<Map<String,String>>();
+            
+            Elements elements = doc.body().select("ul.filter-list > li > a");
+            
+            for(Element element : elements) {
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("year", element.text());
+                item.put("href", element.attr("href"));
+
+                result.add(item);
+            }
+
+            return result;
+
         }
 
         
