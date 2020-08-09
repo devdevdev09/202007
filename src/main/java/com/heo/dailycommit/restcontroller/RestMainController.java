@@ -32,7 +32,7 @@ public class RestMainController {
         
         Map<String,Object> result = new HashMap<String, Object>();
 
-        if(year == null || year.isEmpty() || year.isBlank()){
+        if(year == null || year.isEmpty()){
             result = slackService.getCommitInfo(id);
             int continueCommit = (int) result.get("continue");
             int daily = (int) result.get("daily");
