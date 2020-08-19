@@ -53,6 +53,9 @@ public class SlackService {
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
+            
+            result.put("Exception", e.toString());
+            return result;
         }
 
         return result;
@@ -108,6 +111,9 @@ public class SlackService {
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
+            
+            result.put("Exception", e.toString());
+            return result;
         }
 
         return result;
@@ -137,6 +143,9 @@ public class SlackService {
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
+
+            result.put("Exception", e.toString());
+            return result;
         }
 
         return result;
@@ -203,6 +212,9 @@ public class SlackService {
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
+
+            result.put("Exception", e.toString());
+            return result;
         }
 
         return result;

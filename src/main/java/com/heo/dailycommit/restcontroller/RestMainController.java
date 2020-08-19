@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.heo.dailycommit.service.CommonService;
 import com.heo.dailycommit.service.SlackService;
 
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class RestMainController {
     @Autowired
     private SlackService slackService;
 
+    @Autowired
+    private CommonService commonService;
+
     @GetMapping("/dailycommit/{id}")
     public Map<String, Object> getDailyCommit(@PathVariable String id
                                             , @RequestParam(required = false) String year) {
@@ -34,6 +38,11 @@ public class RestMainController {
 
         if(year == null || year.isEmpty()){
             result = slackService.getCommitInfo(id);
+
+            if(commonService.isError(result)){
+                return result;
+            }
+
             int continueCommit = (int) result.get("continue");
             int daily = (int) result.get("daily");
             
@@ -41,6 +50,10 @@ public class RestMainController {
             result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
         }else{
             result = slackService.getCommitInfo(id, year);
+
+            if(commonService.isError(result)){
+                return result;
+            }
         }
 
         return result;
@@ -52,6 +65,10 @@ public class RestMainController {
         String webhook = (String)requestBody.get("webhook");
 
         Map<String,Object> result = slackService.getCommitInfo(id);
+
+        if(commonService.isError(result)){
+            return result;
+        }
 
         int daily = (int) result.get("daily");
         int continueCommit = (int) result.get("continue");
@@ -94,6 +111,10 @@ public class RestMainController {
     public Map<String, Object> getLastYearDailyCommit(@PathVariable String id) {
         Map<String,Object> result = slackService.getLastYearCommitInfo(id);
 
+        if(commonService.isError(result)){
+            return result;
+        }
+
         String date = (String) result.get("date");
         String user = (String) result.get("user");
         int continueCommit = (int) result.get("continue");
@@ -114,17 +135,9 @@ public class RestMainController {
     public Map<String, Object> getAllDailyCommit(@PathVariable String id) {
         Map<String,Object> result = slackService.getAllCommitInfo(id);
 
-        // String date = (String) result.get("date");
-        // String user = (String) result.get("user");
-        // int continueCommit = (int) result.get("continue");
-        // int daily = (int) result.get("daily");
-        // int all = (int) result.get("all");
-        
-        // result.put("user", user);
-        // result.put("daily", (daily > 0)? true : false);
-        // result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
-        // result.put("date", date);
-        // result.put("all", all);
+        if(commonService.isError(result)){
+            return result;
+        }
 
         return result;
     }
