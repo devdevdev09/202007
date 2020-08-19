@@ -46,7 +46,7 @@ public class HtmlParse {
         }
 
         // jsoup document에서 모든 커밋 일수 계산
-        public int getAllCountRecursive(Document doc, String date, int recurCount) {
+        public int getLastYearCountRecursive(Document doc, String date, int recurCount) {
             String str = doc.body().select("[data-date=\"" + date + "\"]").attr("data-count");
 
             if (str.isEmpty())
@@ -55,9 +55,9 @@ public class HtmlParse {
             int count = Integer.parseInt(str);
 
             if (count > 0) {
-                return 1 + getAllCountRecursive(doc, Utils.getDate("yyyy-MM-dd", ++recurCount), recurCount);
+                return 1 + getLastYearCountRecursive(doc, Utils.getDate("yyyy-MM-dd", ++recurCount), recurCount);
             } else {
-                return 0 + getAllCountRecursive(doc, Utils.getDate("yyyy-MM-dd", ++recurCount), recurCount);
+                return 0 + getLastYearCountRecursive(doc, Utils.getDate("yyyy-MM-dd", ++recurCount), recurCount);
             }
         }
 

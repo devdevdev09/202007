@@ -1,5 +1,6 @@
 package com.heo.dailycommit.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class SlackService {
         return result;
     }
 
-    public Map<String,Object> getAllCommitInfo(String user){
+    public Map<String,Object> getLastYearCommitInfo(String user){
         Map<String, Object> result = new HashMap<String, Object>();
 
         String url = GITHUB_URL + "/" + user;
@@ -125,7 +126,7 @@ public class SlackService {
             String yesterday = Utils.getDate(1);
             int recur_count = 1;
             int continueCommit = htmlparse.getCountRecursive(doc, yesterday, recur_count);
-            int allCommit = htmlparse.getAllCountRecursive(doc, yesterday, recur_count);
+            int allCommit = htmlparse.getLastYearCountRecursive(doc, yesterday, recur_count);
 
             result.put("user", user);
             result.put("daily", todayCommit);
@@ -154,5 +155,57 @@ public class SlackService {
 
     public void post(String msg, String hooks){
         slack.send(msg, hooks);
+    }
+
+    public Map<String,Object> getAllCommitInfo(String user){
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        String url = GITHUB_URL + "/" + user;
+
+        try {
+            Document doc = Jsoup.connect(url).get();
+
+            List<Map<String, String>> years = htmlparse.getYearList(doc);
+            List<Map<String, Object>> datas = new ArrayList<Map<String, Object>>();
+
+            int allCommit = 0;
+
+            for(Map<String, String> item : years){
+                Map<String, Object> data = new HashMap<String, Object>();
+
+                String year = item.get("year");
+                String href = item.get("href");
+
+                url = GITHUB_URL + href;  
+                doc = Jsoup.connect(url).get();
+
+                Elements elements = doc.body().select("[data-date*=" + year + "]");
+
+                int yearCommit = 0;
+
+                for(Element element : elements){
+                    int count = Integer.parseInt(element.attr("data-count"));
+                    if(count > 0){
+                        ++yearCommit;
+                    }
+                }
+
+                data.put("year", year);
+                data.put("commit", yearCommit);
+
+                datas.add(data);
+                allCommit += yearCommit;
+            }
+
+            result.put("allCommit", allCommit);
+            result.put("data", datas);
+
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+
     }
 }

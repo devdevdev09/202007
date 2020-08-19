@@ -89,9 +89,10 @@ public class RestMainController {
         return result;
     }
 
-    @GetMapping("/dailycommit/{id}/all")
-    public Map<String, Object> getAllDailyCommit(@PathVariable String id) {
-        Map<String,Object> result = slackService.getAllCommitInfo(id);
+    // contribution in last year
+    @GetMapping("/dailycommit/{id}/lastyear")
+    public Map<String, Object> getLastYearDailyCommit(@PathVariable String id) {
+        Map<String,Object> result = slackService.getLastYearCommitInfo(id);
 
         String date = (String) result.get("date");
         String user = (String) result.get("user");
@@ -104,6 +105,26 @@ public class RestMainController {
         result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
         result.put("date", date);
         result.put("all", all);
+
+        return result;
+    }
+
+    // yearlist all
+    @GetMapping("/dailycommit/{id}/all")
+    public Map<String, Object> getAllDailyCommit(@PathVariable String id) {
+        Map<String,Object> result = slackService.getAllCommitInfo(id);
+
+        // String date = (String) result.get("date");
+        // String user = (String) result.get("user");
+        // int continueCommit = (int) result.get("continue");
+        // int daily = (int) result.get("daily");
+        // int all = (int) result.get("all");
+        
+        // result.put("user", user);
+        // result.put("daily", (daily > 0)? true : false);
+        // result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+        // result.put("date", date);
+        // result.put("all", all);
 
         return result;
     }
