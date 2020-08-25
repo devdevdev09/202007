@@ -16,7 +16,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import com.heo.dailycommit.entitys.Result;
+import com.heo.dailycommit.collection.ResultAllList;
+import com.heo.dailycommit.entitys.ResultDaily;
 import com.heo.dailycommit.service.CommitService;
 import com.heo.dailycommit.service.CommonService;
 import com.heo.dailycommit.service.SlackService;
@@ -73,12 +74,10 @@ public class RestMainController {
     }
 
     @GetMapping("/dailycommit/{id}")
-    public Result getDailyCommit(@PathVariable String id
-                                            , @RequestParam(required = false, defaultValue = "0000") String year) {
+    public ResultDaily getDailyCommit(@PathVariable String id, 
+                                      @RequestParam(required = false) String year) throws Exception {
         
-        Result result = new Result();
-
-        result = commitService.getCommitInfo(id, year);
+        ResultDaily result = commitService.getCommitInfo(id, year);
 
         return result;
     }
@@ -114,22 +113,6 @@ public class RestMainController {
         return result;
     }
 
-    @GetMapping("/dailycommit/[{ids}]")
-    public Map<String, Object> getMethodName(@PathVariable List<String> ids) {
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("key1", "value1");
-
-        List<String> userList = new ArrayList<String>();
-
-        for (String id : ids) {
-            userList.add(id);
-        }
-
-        result.put("userList", ids);
-
-        return result;
-    }
-
     // contribution in last year
     @GetMapping("/dailycommit/{id}/lastyear")
     public Map<String, Object> getLastYearDailyCommit(@PathVariable String id) {
@@ -156,12 +139,8 @@ public class RestMainController {
 
     // yearlist all
     @GetMapping("/dailycommit/{id}/all")
-    public Map<String, Object> getAllDailyCommit(@PathVariable String id) {
-        Map<String,Object> result = slackService.getAllCommitInfo(id);
-
-        if(commonService.isError(result)){
-            return result;
-        }
+    public ResultAllList getAllDailyCommit(@PathVariable String id) {
+        ResultAllList result = slackService.getAllCommitInfo(id);
 
         return result;
     }

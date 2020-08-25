@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.heo.dailycommit.collection.ResultAllList;
+import com.heo.dailycommit.collection.ResultYearlyList;
+import com.heo.dailycommit.entitys.ResultYearly;
 import com.heo.dailycommit.parse.HtmlParse;
 import com.heo.dailycommit.slack.Slack;
 import com.heo.dailycommit.utils.Utils;
@@ -166,8 +169,8 @@ public class SlackService {
         slack.send(msg, hooks);
     }
 
-    public Map<String,Object> getAllCommitInfo(String user){
-        Map<String, Object> result = new HashMap<String, Object>();
+    public ResultAllList getAllCommitInfo(String user){
+        ResultAllList resultAllList = new ResultAllList();
 
         String url = GITHUB_URL + "/" + user;
 
@@ -175,13 +178,11 @@ public class SlackService {
             Document doc = Jsoup.connect(url).get();
 
             List<Map<String, String>> years = htmlparse.getYearList(doc);
-            List<Map<String, Object>> datas = new ArrayList<Map<String, Object>>();
+            ResultYearlyList resultYearlyList = new ResultYearlyList();
 
             int allCommit = 0;
 
             for(Map<String, String> item : years){
-                Map<String, Object> data = new HashMap<String, Object>();
-
                 String year = item.get("year");
                 String href = item.get("href");
 
@@ -199,25 +200,21 @@ public class SlackService {
                     }
                 }
 
-                data.put("year", year);
-                data.put("commit", yearCommit);
+                ResultYearly resultYear = new ResultYearly(year, yearCommit, user);
 
-                datas.add(data);
+                resultYearlyList.add(resultYear);
                 allCommit += yearCommit;
             }
 
-            result.put("allCommit", allCommit);
-            result.put("data", datas);
+            resultAllList.setAllCommit(allCommit);
+            resultAllList.setList(resultYearlyList);
 
         } catch (Exception e) {
-            logger.debug(e.getMessage());
+            logger.info(e.toString());
             e.printStackTrace();
-
-            result.put("Exception", e.toString());
-            return result;
         }
 
-        return result;
+        return resultAllList;
 
     }
 }

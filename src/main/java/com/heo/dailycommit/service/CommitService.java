@@ -3,7 +3,8 @@ package com.heo.dailycommit.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.heo.dailycommit.entitys.Result;
+import com.heo.dailycommit.entitys.ResultDaily;
+import com.heo.dailycommit.error.NotFoundException;
 import com.heo.dailycommit.parse.HtmlParse;
 import com.heo.dailycommit.slack.Slack;
 import com.heo.dailycommit.utils.Utils;
@@ -27,8 +28,8 @@ public class CommitService {
 
     public final String GITHUB_URL = "https://github.com";
     
-    public Result getCommitInfo(String user, String year){
-        Result result = new Result();
+    public ResultDaily getCommitInfo(String user, String year) throws Exception{
+        ResultDaily result = null;
 
         String url = GITHUB_URL + "/" + user;
         String today = Utils.getToday();
@@ -38,18 +39,13 @@ public class CommitService {
             
             int todayCommit = htmlparse.getCountByDoc(doc, today);
 
-            String yesterday = Utils.getDate(1);
-            int recur_count = 1;
+            String yesterday   = Utils.getDate(1);
+            int recur_count    = 1;
             int continueCommit = htmlparse.getCountRecursive(doc, yesterday, recur_count);
 
-
-            result = new Result(today, continueCommit + ((todayCommit > 0)? 1 : 0) , (todayCommit > 0) ? true : false, user);
+            result = new ResultDaily(today, continueCommit + ((todayCommit > 0)? 1 : 0) , (todayCommit > 0) ? true : false, user);
         } catch (Exception e) {
-            // logger.debug(e.getMessage());
-            // e.printStackTrace();
-            
-            // result.put("Exception", e.toString());
-            // return result;
+            throw new Exception(e.toString());
         }
 
         return result;
