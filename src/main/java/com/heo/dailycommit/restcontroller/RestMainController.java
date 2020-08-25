@@ -16,6 +16,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import com.heo.dailycommit.entitys.Result;
+import com.heo.dailycommit.service.CommitService;
 import com.heo.dailycommit.service.CommonService;
 import com.heo.dailycommit.service.SlackService;
 
@@ -62,36 +64,21 @@ public class RestMainController {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private CommitService commitService;
+
     @GetMapping("/test")
     public String test(){
         return "test";
     }
 
     @GetMapping("/dailycommit/{id}")
-    public Map<String, Object> getDailyCommit(@PathVariable String id
-                                            , @RequestParam(required = false) String year) {
+    public Result getDailyCommit(@PathVariable String id
+                                            , @RequestParam(required = false, defaultValue = "0000") String year) {
         
-        Map<String,Object> result = new HashMap<String, Object>();
+        Result result = new Result();
 
-        if(year == null || year.isEmpty()){
-            result = slackService.getCommitInfo(id);
-
-            if(commonService.isError(result)){
-                return result;
-            }
-
-            int continueCommit = (int) result.get("continue");
-            int daily = (int) result.get("daily");
-            
-            result.put("daily", (daily > 0)? true : false);
-            result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
-        }else{
-            result = slackService.getCommitInfo(id, year);
-
-            if(commonService.isError(result)){
-                return result;
-            }
-        }
+        result = commitService.getCommitInfo(id, year);
 
         return result;
     }
