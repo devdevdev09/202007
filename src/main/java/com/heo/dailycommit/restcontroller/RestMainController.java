@@ -62,6 +62,11 @@ public class RestMainController {
     @Autowired
     private CommonService commonService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
+
     @GetMapping("/dailycommit/{id}")
     public Map<String, Object> getDailyCommit(@PathVariable String id
                                             , @RequestParam(required = false) String year) {
