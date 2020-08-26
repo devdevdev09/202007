@@ -1,6 +1,7 @@
 package com.heo.dailycommit.restcontroller;
 
 import java.util.Map;
+import java.util.Random;
 
 import com.heo.dailycommit.collection.ResultAllList;
 import com.heo.dailycommit.entitys.ResultDaily;
@@ -33,9 +34,16 @@ public class RestMainController {
     @Autowired
     private CommitService commitService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
+    @GetMapping("/test/string")
+    public String test_string(){
+        return "test string";
+    }
+
+    @GetMapping("/test/number/random")
+    public int test_random_num(){
+        Random rand = new Random();
+        int num = rand.nextInt(5);
+        return num;
     }
 
     @GetMapping("/dailycommit/{id}")
