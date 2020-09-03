@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableScheduling
-@RestController
+// @RestController
 public class DailyCommitApplication {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());

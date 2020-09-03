@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-@RequestMapping(value = "/")
+// @RequestMapping(value = "/")
 public class MainController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/")
+    // @RequestMapping(value = "/")
     public String main(){
         return "index";
     }
