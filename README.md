@@ -7,6 +7,9 @@
 - REST API 설계, ERROR STATUS 반환하기
 - 실행 인원 리스트로 입력받기
 
+### 2020-10-23
+- spring-rest-docs 추가
+
 ### 2020-08-25
 - ssl 우회 처리 추가
 - 응답 데이터 Map에서 class로 수정
