@@ -1,0 +1,7 @@
+= 일일 커밋 카운터(Daily-Commit-Counter)
+
+== 일일 커밋 조회
+include::{snippets}/rest-main-controller-test/get-daily-commit/http-request.adoc[]
+include::{snippets}/rest-main-controller-test/get-daily-commit/path-parameters.adoc[]
+include::{snippets}/rest-main-controller-test/get-daily-commit/request-parameters.adoc[]
+include::{snippets}/rest-main-controller-test/get-daily-commit/http-response.adoc[]

@@ -1,6 +1,8 @@
 # 202007
 
 ## 일일 커밋 체크 프로그램
+- api 명세(maven > clean > install)
+- http://localhost:20030/docs/api-docs.html
 
 ## TODO
 - index.html 수정하기(설명 보충) > rest api docs

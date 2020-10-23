@@ -1,24 +1,18 @@
 package com.heo.dailycommit.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.heo.dailycommit.entitys.ResultDaily;
-import com.heo.dailycommit.error.NotFoundException;
 import com.heo.dailycommit.parse.HtmlParse;
 import com.heo.dailycommit.slack.Slack;
 import com.heo.dailycommit.utils.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommitService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    // private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     Slack slack;
@@ -28,6 +22,7 @@ public class CommitService {
 
     public final String GITHUB_URL = "https://github.com";
     
+    // year 아무것도 안함????
     public ResultDaily getCommitInfo(String user, String year) throws Exception{
         ResultDaily result = null;
 

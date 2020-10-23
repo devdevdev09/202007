@@ -10,13 +10,11 @@ import com.heo.dailycommit.utils.Utils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HtmlParse {
-        private final Logger logger = LoggerFactory.getLogger(this.getClass());
+        // private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         // jsoup document에서 날짜를 역순으로 가서 연속 커밋일수 확인
         public int getCountRecursive(Document doc, String date, int recurCount) {
