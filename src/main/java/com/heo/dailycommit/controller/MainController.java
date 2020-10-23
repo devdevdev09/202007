@@ -27,6 +27,7 @@ public class MainController {
     }
 
     // ssl 에러 처리
+    // 할필요 없음....
     public static void setSSL() throws NoSuchAlgorithmException, KeyManagementException {
         TrustManager[] trustAllCerts = new TrustManager[] {
             new X509TrustManager() {
