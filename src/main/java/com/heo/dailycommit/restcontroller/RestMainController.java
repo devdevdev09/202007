@@ -12,6 +12,8 @@ import com.heo.dailycommit.service.SlackService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/")
 @RestController
-public class RestMainController {
+public class RestMainController extends BaseController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -34,25 +36,16 @@ public class RestMainController {
     @Autowired
     private CommitService commitService;
 
-    @GetMapping("/test/string")
-    public String test_string(){
-        return "test string";
-    }
-
-    @GetMapping("/test/number/random")
-    public int test_random_num(){
-        Random rand = new Random();
-        int num = rand.nextInt(5);
-        return num;
-    }
-
     @GetMapping("/dailycommit/{id}")
-    public ResultDaily getDailyCommit(@PathVariable String id, 
-                                      @RequestParam(required = false) String year) throws Exception {
-        
-        ResultDaily result = commitService.getCommitInfo(id, year);
-
-        return result;
+    public ResponseEntity<ResultDaily> getDailyCommit(
+                        @PathVariable String id, 
+                        @RequestParam(required = false) String year) throws Exception {
+        try{
+            ResultDaily result = commitService.getCommitInfo(id, year);
+            return success(result);
+        }catch(Exception e){
+            return fail();
+        }
     }
 
     @PostMapping("/dailycommit/{id}")

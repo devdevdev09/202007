@@ -5,9 +5,13 @@
 - http://localhost:20030/docs/api-docs.html
 
 ## TODO
-- index.html 수정하기(설명 보충) > rest api docs
+- 전년도까지 연속 커밋 체크하기
+- REST-DOCS 완성하기
 - REST API 설계, ERROR STATUS 반환하기
 - 실행 인원 리스트로 입력받기
+
+### 2020-10-26
+- ResponseEntity 추가
 
 ### 2020-10-23
 - spring-rest-docs 추가
