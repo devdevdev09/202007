@@ -1,4 +1,4 @@
-package com.heo.dailycommit.parse;
+package com.heo.dailycommit.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +10,10 @@ import com.heo.dailycommit.utils.Utils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class HtmlParse {
+@Service
+public class HtmlService {
         // private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
         // jsoup document에서 날짜를 역순으로 가서 연속 커밋일수 확인
@@ -79,5 +79,26 @@ public class HtmlParse {
             }
 
             return result;
+        }
+
+        /**
+         * 
+         * @param year String year
+         * @param doc Document doc
+         * @return 해당 년도의 전체 커밋수를 반환한다.
+         */
+        public int getYearCount(String year, Document doc){
+            Elements elements = doc.body().select("[data-date*=" + year + "]");
+
+            int yearCommit = 0;
+
+            for(Element element : elements){
+                int count = Integer.parseInt(element.attr("data-count"));
+                if(count > 0){
+                    ++yearCommit;
+                }
+            }
+
+            return yearCommit;
         }
 }

@@ -1,7 +1,6 @@
 package com.heo.dailycommit.restcontroller;
 
 import java.util.Map;
-import java.util.Random;
 
 import com.heo.dailycommit.collection.ResultAllList;
 import com.heo.dailycommit.entitys.ResultDaily;
@@ -12,7 +11,6 @@ import com.heo.dailycommit.service.SlackService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,62 +25,55 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestMainController extends BaseController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
     private SlackService slackService;
-
-    @Autowired
     private CommonService commonService;
-
-    @Autowired
     private CommitService commitService;
+
+    public RestMainController(SlackService slackService,
+                            CommonService commonService,
+                            CommitService commitService){
+        this.slackService = slackService;
+        this.commonService = commonService;
+        this.commitService = commitService;                                
+
+    }
 
     @GetMapping("/dailycommit/{id}")
     public ResponseEntity<ResultDaily> getDailyCommit(
-                        @PathVariable String id, 
-                        @RequestParam(required = false) String year) throws Exception {
-        try{
-            ResultDaily result = commitService.getCommitInfo(id, year);
+                            @PathVariable String id,
+                            @RequestParam(required = false) String year) throws Exception {
+        try {
+            ResultDaily result = commitService.getCommitInfo(id);
             return success(result);
-        }catch(Exception e){
+        } catch (Exception e) {
             return fail();
         }
     }
 
     @PostMapping("/dailycommit/{id}")
-    public Map<String, Object> postDailyCommit(@PathVariable String id
-                                             , @RequestBody Map<String, Object> requestBody) {
-        String webhook = (String)requestBody.get("webhook");
+    public ResponseEntity<ResultDaily> postDailyCommit(
+                            @PathVariable String id, 
+                            @RequestBody Map<String, Object> requestBody) throws Exception{
+        String webhook = (String) requestBody.get("webhook");
 
-        Map<String,Object> result = slackService.getCommitInfo(id);
-
-        if(commonService.isError(result)){
-            return result;
-        }
-
-        int daily = (int) result.get("daily");
-        int continueCommit = (int) result.get("continue");
+        ResultDaily result;
+        try {
+            result = commitService.getCommitInfo(id);
+            
+            String msg = slackService.getSlackMsg(result);
         
-        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
+            slackService.post(msg, webhook);
 
-        if(webhook == null || webhook.isEmpty()){
-            result.put("msg", "slack webhook url is Empty!!");
-            result.put("daily", (daily > 0)? true : false);
-            return result;
+            return success(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return fail();
         }
-    
-        String msg = slackService.getSlackMsg(result);
-    
-        slackService.post(msg, webhook);
-
-        result.put("daily", (daily > 0)? true : false);
-    
-        return result;
     }
 
-    // contribution in last year
     @GetMapping("/dailycommit/{id}/lastyear")
     public Map<String, Object> getLastYearDailyCommit(@PathVariable String id) {
-        Map<String,Object> result = slackService.getLastYearCommitInfo(id);
+        Map<String,Object> result = commitService.getLastYearCommitInfo(id);
 
         if(commonService.isError(result)){
             return result;
@@ -103,10 +94,9 @@ public class RestMainController extends BaseController {
         return result;
     }
 
-    // yearlist all
     @GetMapping("/dailycommit/{id}/all")
     public ResultAllList getAllDailyCommit(@PathVariable String id) {
-        ResultAllList result = slackService.getAllCommitInfo(id);
+        ResultAllList result = commitService.getAllCommitInfo(id);
 
         return result;
     }

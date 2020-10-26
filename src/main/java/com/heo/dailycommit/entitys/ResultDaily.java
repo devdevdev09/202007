@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ResultDaily {
+    // boolean 은 isDaily() 생성
     private boolean daily;
     private String date;
     private String user;
