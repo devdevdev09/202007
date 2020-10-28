@@ -1,4 +1,4 @@
-package com.heo.dailycommit.restcontroller;
+package com.heo.dailycommit.controller;
 
 import com.heo.dailycommit.entitys.ResultDaily;
 

@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-// @RestController
 public class DailyCommitApplication {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
