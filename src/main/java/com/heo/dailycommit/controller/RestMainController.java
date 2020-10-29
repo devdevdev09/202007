@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.heo.dailycommit.collection.ResultAllList;
 import com.heo.dailycommit.entitys.ResultDaily;
+import com.heo.dailycommit.entitys.ResultYearly;
 import com.heo.dailycommit.service.CommitService;
 import com.heo.dailycommit.service.CommonService;
 import com.heo.dailycommit.service.SlackService;
@@ -41,11 +42,13 @@ public class RestMainController extends BaseController {
     public ResponseEntity<ResultDaily> getDailyCommit(
                             @PathVariable String id,
                             @RequestParam(required = false) String year) throws Exception {
+        ResultDaily result = null;
+
         try {
-            ResultDaily result = commitService.getCommitInfo(id);
+            result = commitService.getCommitInfo(id);
             return success(result);
         } catch (Exception e) {
-            return fail();
+            return fail(result);
         }
     }
 
@@ -71,32 +74,26 @@ public class RestMainController extends BaseController {
     }
 
     @GetMapping("/dailycommit/{id}/lastyear")
-    public Map<String, Object> getLastYearDailyCommit(@PathVariable String id) {
-        Map<String,Object> result = commitService.getLastYearCommitInfo(id);
+    public ResponseEntity<ResultYearly> getLastYearDailyCommit(@PathVariable String id) {
+        ResultYearly result = null;
 
-        if(commonService.isError(result)){
-            return result;
+        try{
+            result = commitService.getLastYearCommitInfo(id);
+            return success(result);
+        }catch(Exception e){
+            return fail(result);
         }
-
-        String date = (String) result.get("date");
-        String user = (String) result.get("user");
-        int continueCommit = (int) result.get("continue");
-        int daily = (int) result.get("daily");
-        int all = (int) result.get("all");
-        
-        result.put("user", user);
-        result.put("daily", (daily > 0)? true : false);
-        result.put("continue", continueCommit + ((daily > 0)? 1 : 0));
-        result.put("date", date);
-        result.put("all", all);
-
-        return result;
     }
 
     @GetMapping("/dailycommit/{id}/all")
-    public ResultAllList getAllDailyCommit(@PathVariable String id) {
-        ResultAllList result = commitService.getAllCommitInfo(id);
+    public ResponseEntity<ResultAllList> getAllDailyCommit(@PathVariable String id) {
+        ResultAllList result = null;
 
-        return result;
+        try{
+            result = commitService.getAllCommitInfo(id);
+            return success(result);
+        }catch(Exception e){
+            return fail(result);
+        }
     }
 }

@@ -88,8 +88,8 @@ public class CommitService {
         return result;
     }
 
-    public Map<String,Object> getLastYearCommitInfo(String user){
-        Map<String, Object> result = new HashMap<String, Object>();
+    public ResultYearly getLastYearCommitInfo(String user){
+        ResultYearly result = null;
 
         String url = GITHUB_URL + "/" + user;
         String today = Utils.getToday();
@@ -103,18 +103,11 @@ public class CommitService {
             int continueCommit = htmlService.getCountRecursive(doc, yesterday, recur_count);
             int allCommit = htmlService.getLastYearCountRecursive(doc, yesterday, recur_count);
 
-            result.put("user", user);
-            result.put("daily", todayCommit);
-            result.put("continue", continueCommit);
-            result.put("date", today);
-            result.put("all", allCommit);
+            result = new ResultYearly(user, allCommit, user);
 
         } catch (Exception e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
-
-            result.put("Exception", e.toString());
-            return result;
         }
 
         return result;
