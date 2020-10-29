@@ -1,17 +1,12 @@
 package com.heo.dailycommit.entitys;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class ResultYearly {
+@AllArgsConstructor
+public class ResultYearly extends ResultDefault {
     private String user;
-    private String msg;
-    private String year;
     private int commit;
-
-    public ResultYearly(String year, int commit, String user){
-        this.year = year;
-        this.commit = commit;
-        this.user = user;
-    }
+    private String year;
 }
