@@ -26,14 +26,11 @@ public class RestMainController extends BaseController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private SlackService slackService;
-    private CommonService commonService;
     private CommitService commitService;
 
     public RestMainController(SlackService slackService,
-                            CommonService commonService,
                             CommitService commitService){
         this.slackService = slackService;
-        this.commonService = commonService;
         this.commitService = commitService;                                
 
     }
@@ -58,7 +55,7 @@ public class RestMainController extends BaseController {
                             @RequestBody Map<String, Object> requestBody) throws Exception{
         String webhook = (String) requestBody.get("webhook");
 
-        ResultDaily result;
+        ResultDaily result = null;
         try {
             result = commitService.getCommitInfo(id);
             
@@ -69,7 +66,7 @@ public class RestMainController extends BaseController {
             return success(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return fail();
+            return fail(result);
         }
     }
 
