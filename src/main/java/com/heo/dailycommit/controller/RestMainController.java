@@ -6,7 +6,6 @@ import com.heo.dailycommit.collection.ResultAllList;
 import com.heo.dailycommit.entitys.ResultDaily;
 import com.heo.dailycommit.entitys.ResultYearly;
 import com.heo.dailycommit.service.CommitService;
-import com.heo.dailycommit.service.CommonService;
 import com.heo.dailycommit.service.SlackService;
 
 import org.slf4j.Logger;
