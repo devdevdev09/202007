@@ -34,25 +34,24 @@ public class RestMainController extends BaseController {
 
     }
 
+    // @GetMapping("/dailycommit/{id}")
+    // public ResponseEntity<ResultDaily> getDailyCommit(
+    //                         @PathVariable String id,
+    //                         @RequestParam(required = false) String year) throws Exception {
+    //     ResultDaily result = null;
+
+    //     try {
+    //         result = commitService.getCommitInfo(id);
+    //         return success(result);
+    //     } catch (Exception e) {
+    //         return fail(result);
+    //     }
+    // }
+
     @GetMapping("/dailycommit/{id}")
-    public ResponseEntity<ResultDaily> getDailyCommit(
-                            @PathVariable String id,
-                            @RequestParam(required = false) String year) throws Exception {
-        ResultDaily result = null;
-
-        try {
-            result = commitService.getCommitInfo(id);
-            return success(result);
-        } catch (Exception e) {
-            return fail(result);
-        }
-    }
-
-    @PostMapping("/dailycommit/{id}")
     public ResponseEntity<ResultDaily> postDailyCommit(
-                            @PathVariable String id, 
-                            @RequestBody Map<String, Object> requestBody) throws Exception{
-        String webhook = (String) requestBody.get("webhook");
+                            @PathVariable String id) {
+        String webhook = "https://hooks.slack.com/services/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";
 
         ResultDaily result = null;
         try {
