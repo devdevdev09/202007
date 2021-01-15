@@ -1,7 +1,5 @@
 package com.heo.dailycommit.controller;
 
-import java.util.Map;
-
 import com.heo.dailycommit.collection.ResultAllList;
 import com.heo.dailycommit.entitys.ResultDaily;
 import com.heo.dailycommit.entitys.ResultYearly;
@@ -10,19 +8,20 @@ import com.heo.dailycommit.service.SlackService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/")
 @RestController
 public class RestMainController extends BaseController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Value("${slack.webhook}")
+    private String WEBHOOK;
 
     private SlackService slackService;
     private CommitService commitService;
@@ -34,32 +33,16 @@ public class RestMainController extends BaseController {
 
     }
 
-    // @GetMapping("/dailycommit/{id}")
-    // public ResponseEntity<ResultDaily> getDailyCommit(
-    //                         @PathVariable String id,
-    //                         @RequestParam(required = false) String year) throws Exception {
-    //     ResultDaily result = null;
-
-    //     try {
-    //         result = commitService.getCommitInfo(id);
-    //         return success(result);
-    //     } catch (Exception e) {
-    //         return fail(result);
-    //     }
-    // }
-
     @GetMapping("/dailycommit/{id}")
     public ResponseEntity<ResultDaily> postDailyCommit(
                             @PathVariable String id) {
-        String webhook = "https://hooks.slack.com/services/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";
-
         ResultDaily result = null;
         try {
             result = commitService.getCommitInfo(id);
             
             String msg = slackService.getSlackMsg(result);
         
-            slackService.post(msg, webhook);
+            slackService.post(msg, WEBHOOK);
 
             return success(result);
         } catch (Exception e) {
