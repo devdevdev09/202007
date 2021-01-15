@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class DailyScheduler {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${slack.webhook}")
+    @Value("${slack.value.hooks}")
     public String WEBHOOK;
 
     private SlackService slackService;

@@ -1,7 +1,6 @@
 package com.heo.dailycommit.controller;
 
 import com.heo.dailycommit.collection.ResultAllList;
-import com.heo.dailycommit.collection.ResultYearlyList;
 import com.heo.dailycommit.entitys.ResultDaily;
 import com.heo.dailycommit.entitys.ResultYearly;
 

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestMainController extends BaseController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${slack.webhook}")
+    @Value("${slack.value.hooks}")
     private String WEBHOOK;
 
     private SlackService slackService;
